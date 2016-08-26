@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "symfony/symfony": "^3.0"
+        "symfony/symfony": "~2.1 | ^3.0"
     },
     "autoload": {
         "psr-0": { "Unifik\\DatabaseConfigBundle": "" }
