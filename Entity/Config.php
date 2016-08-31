@@ -5,56 +5,62 @@ namespace Unifik\DatabaseConfigBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Config
+ * 
+ * @ORM\Table(name="container_config")
+ * @ORM\Entity(repositoryClass="Unifik\DatabaseConfigBundle\Entity\ConfigRepository")
  */
-class Config
-{
+class Config {
 
     /**
-     * @var integer
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @var string
+     * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
-     * @var string
+     * @ORM\Column(type="string", length=255)
      */
     private $value;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     * @ORM\OneToMany(targetEntity="Unifik\DatabaseConfigBundle\Entity\Config", mappedBy="parent", cascade={"remove"})
      */
     private $children;
 
     /**
-     * @var \Unifik\DatabaseConfigBundle\Entity\Config
+     * 
+     * @ORM\ManyToOne(targetEntity="Unifik\DatabaseConfigBundle\Entity\Config", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $parent;
 
     /**
-     * @var \Unifik\DatabaseConfigBundle\Entity\Extension
+     * 
+     * @ORM\ManyToOne(targetEntity="Unifik\DatabaseConfigBundle\Entity\Extension", inversedBy="configs")
+     * @ORM\JoinColumn(name="extension_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $extension;
 
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -64,10 +70,9 @@ class Config
      * @param string $name
      * @return Config
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
-    
+
         return $this;
     }
 
@@ -76,8 +81,7 @@ class Config
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -87,10 +91,9 @@ class Config
      * @param string $value
      * @return Config
      */
-    public function setValue($value)
-    {
+    public function setValue($value) {
         $this->value = $value;
-    
+
         return $this;
     }
 
@@ -99,8 +102,7 @@ class Config
      *
      * @return string 
      */
-    public function getValue()
-    {
+    public function getValue() {
         return $this->value;
     }
 
@@ -110,10 +112,9 @@ class Config
      * @param \Unifik\DatabaseConfigBundle\Entity\Config $children
      * @return Config
      */
-    public function addChildren(\Unifik\DatabaseConfigBundle\Entity\Config $children)
-    {
+    public function addChildren(\Unifik\DatabaseConfigBundle\Entity\Config $children) {
         $this->children[] = $children;
-    
+
         return $this;
     }
 
@@ -122,8 +123,7 @@ class Config
      *
      * @param \Unifik\DatabaseConfigBundle\Entity\Config $children
      */
-    public function removeChildren(\Unifik\DatabaseConfigBundle\Entity\Config $children)
-    {
+    public function removeChildren(\Unifik\DatabaseConfigBundle\Entity\Config $children) {
         $this->children->removeElement($children);
     }
 
@@ -132,8 +132,7 @@ class Config
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getChildren()
-    {
+    public function getChildren() {
         return $this->children;
     }
 
@@ -143,10 +142,9 @@ class Config
      * @param \Unifik\DatabaseConfigBundle\Entity\Config $parent
      * @return Config
      */
-    public function setParent(\Unifik\DatabaseConfigBundle\Entity\Config $parent = null)
-    {
+    public function setParent(\Unifik\DatabaseConfigBundle\Entity\Config $parent = null) {
         $this->parent = $parent;
-    
+
         return $this;
     }
 
@@ -155,8 +153,7 @@ class Config
      *
      * @return \Unifik\DatabaseConfigBundle\Entity\Config
      */
-    public function getParent()
-    {
+    public function getParent() {
         return $this->parent;
     }
 
@@ -166,10 +163,9 @@ class Config
      * @param \Unifik\DatabaseConfigBundle\Entity\Extension $extension
      * @return Config
      */
-    public function setExtension(\Unifik\DatabaseConfigBundle\Entity\Extension $extension = null)
-    {
+    public function setExtension(\Unifik\DatabaseConfigBundle\Entity\Extension $extension = null) {
         $this->extension = $extension;
-    
+
         return $this;
     }
 
@@ -178,8 +174,7 @@ class Config
      *
      * @return \Unifik\DatabaseConfigBundle\Entity\Extension
      */
-    public function getExtension()
-    {
+    public function getExtension() {
         return $this->extension;
     }
 
@@ -199,4 +194,5 @@ class Config
 
         return $this->value;
     }
+
 }

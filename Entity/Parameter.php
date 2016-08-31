@@ -5,22 +5,25 @@ namespace Unifik\DatabaseConfigBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Parameter
+ * @ORM\Table(name="container_parameter")
+ * @ORM\Entity()
  */
 class Parameter
 {
     /**
-     * @var integer
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @var string
+     * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
-     * @var string
+     * @ORM\Column(type="string", length=255)
      */
     private $value;
 

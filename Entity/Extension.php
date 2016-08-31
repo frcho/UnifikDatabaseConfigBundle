@@ -6,23 +6,26 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Extension
+ * Config
+ * @ORM\Table(name="container_extension")
+ * @ORM\Entity(repositoryClass="Unifik\DatabaseConfigBundle\Entity\ExtensionRepository")
  */
 class Extension
 {
-
     /**
-     * @var integer
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @var string
+     * @ORM\Column(type="string", length=255)
      */
     private $name;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
+   /**
+     * @ORM\OneToMany(targetEntity="Unifik\DatabaseConfigBundle\Entity\Config", mappedBy="extension", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $configs;
 
